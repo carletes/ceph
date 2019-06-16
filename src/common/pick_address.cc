@@ -445,6 +445,14 @@ int pick_addresses(
 	       <<  cpp_strerror(r) << dendl;
     return r;
   }
+
+  for(struct ifaddrs *p = ifa; p != NULL; p = p->ifa_next) {
+    lderr(cct) << "*** addr from getifaddrs(): iface:" << p->ifa_name <<
+      ", if_addr: " << p->ifa_addr <<
+      ", if_netmask: " << p->ifa_netmask <<
+      dendl;
+  }
+
   r = pick_addresses(cct, flags, ifa, addrs, preferred_numa_node);
   freeifaddrs(ifa);
   return r;
